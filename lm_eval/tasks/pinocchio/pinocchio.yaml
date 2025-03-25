@@ -1,0 +1,36 @@
+task: pinocchio
+dataset_path: dyfan/Pinocchio
+dataset_name: default
+test_split: train
+output_type: multiple_choice
+process_results: !function utils.process_results_multiple_choice
+doc_to_text: !function utils.doc_to_text
+doc_to_target: answer
+doc_to_choice: ["Yes", "No", "Not Sure Enough"]
+metadata:
+  version: 1.0
+metric_list:
+  - metric: acc
+    aggregation: mean
+    higher_is_better: true
+  - metric: acc_Multilingual
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
+  - metric: acc_Real-World
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
+  - metric: acc_Multifaceted
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
+  - metric: acc_Temporal
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
+  - metric: acc_Domain-Specific
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
+  - metric: acc_Adversarial
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
+  - metric: acc_Structural
+    aggregation: !function utils.agg_accuracy
+    higher_is_better: true
