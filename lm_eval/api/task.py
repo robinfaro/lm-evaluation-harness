@@ -75,6 +75,7 @@ class TaskConfig(dict):
     doc_to_text: Optional[Union[Callable, str]] = None
     doc_to_target: Optional[Union[Callable, str]] = None
     doc_to_image: Union[Callable, str] = None
+    prefix_text: str = ""
     unsafe_code: bool = False
     doc_to_choice: Optional[Union[Callable, str, dict, list]] = None
     process_results: Optional[Union[Callable, str]] = None
