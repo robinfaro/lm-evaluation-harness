@@ -871,11 +871,11 @@ class HFLM(TemplateLM):
                 assert attn_mask is not None and labels is not None
                 assert self.AUTO_MODEL_CLASS == transformers.AutoModelForSeq2SeqLM
                 return self.model(
-                    input_ids=inps, attention_mask=attn_mask, labels=labels
-                ).logits
+                    input_ids=inps, attention_mask=attn_mask, targets=labels
+                ).combined_log_probs
             else:
                 assert self.AUTO_MODEL_CLASS == transformers.AutoModelForCausalLM
-                return self.model(inps).logits
+                return self.model(inps).combined_log_probs
 
     def _model_generate(self, context, max_length, stop, **generation_kwargs):
         # temperature = 0.0 if not set
@@ -1191,9 +1191,13 @@ class HFLM(TemplateLM):
                     "labels": batched_conts,
                 }
 
-            multi_logits = F.log_softmax(
-                self._model_call(batched_inps, **call_kwargs), dim=-1
-            )  # [batch, padding_length (inp or cont), vocab]
+            # multi_logits = F.log_softmax(
+            #     self._model_call(batched_inps, **call_kwargs), dim=-1
+            # )  # [batch, padding_length (inp or cont), vocab]
+
+            multi_logits = self._model_call(
+                batched_inps, **call_kwargs
+            )
 
             for (request_str, ctx_tokens, _), logits, inplen, cont_toks in zip(
                 chunk, multi_logits, inplens, cont_toks_list

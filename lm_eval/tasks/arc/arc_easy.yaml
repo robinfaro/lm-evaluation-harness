@@ -1,8 +1,8 @@
 tag:
   - ai2_arc
 task: arc_easy
-dataset_path: allenai/ai2_arc
-dataset_name: ARC-Easy
+dataset_path: /mloscratch/homes/faro/thesis/datasets/ai2_arc
+dataset_name: default
 output_type: multiple_choice
 training_split: train
 validation_split: validation
